@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage[parfill]{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm} % for proofs
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage[toc,page]{appendix}
+\graphicspath{ {./images} }
+
+\title{Differentiation}
+\author{Dávid Iván}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{introduction}
+
+When differentiating an arbitrary-shaped (scalar, vector, matrix or higher rank tensor) function $f$ w.r.t. a scalar (e.t. $t$, the time), the result ($\partial f / \partial t$, the Jacobian) has the same shape as the function.
+
+When differentiating a scalar function w.r.t. $x$ (scalar, vector or matrix), the result has the same shape as $x^T$, i.e., the transpose of $x$.
+
+Combining the 2 above, let's say for example that $f(x)$ is an n-vector, and $x$ is an m-vector. Then $\partial f(x) / \partial x$ is an n-by-m matrix. This can be generalized with tensors.
+
+\section{scalar functions}
+
+\subsection{differentiation w.r.t. a vector}
+
+\paragraph{1.} Let $\mathbf{a} \in \mathbb{R}^n$ be a constant vector, $\mathbf{x} \in \mathbb{R}^n$. Then
+
+\begin{equation} \label{eq:da_dx}
+    \frac{d}{d\mathbf{x}} (\mathbf{x}^{T}\mathbf{a}) = \frac{d}{d\mathbf{x}} (\mathbf{a}^{T}\mathbf{x}) = \mathbf{a^T}
+\end{equation}
+
+\paragraph{2.} Let $\mathbf{A} \in \mathbb{R}^{nxn}$ be a constant matrix, $\mathbf{x} \in \mathbb{R}^n$ Then
+
+\begin{equation} \label{eq:dA_dx}
+    \frac{d}{d\mathbf{x}} (\mathbf{x}^{T}\mathbf{A}\mathbf{x}) = \mathbf{x}^T (\mathbf{A}^T + \mathbf{A})
+\end{equation}
+
+We can derive this as follows:
+
+\[
+\begin{split}
+    \frac{d}{d\mathbf{x}} (\mathbf{x}^{T}\mathbf{A}\mathbf{x}) =& \frac{d}{d\mathbf{y}} (\mathbf{y}^{T}\mathbf{A}\mathbf{x}) + \frac{d}{d\mathbf{y}} (\mathbf{x}^{T}\mathbf{A}\mathbf{y})\\
+    =& \frac{d}{d\mathbf{y}} (\mathbf{x}^{T}\mathbf{A}^T\mathbf{y}) + \frac{d}{d\mathbf{y}} (\mathbf{x}^T\mathbf{A}\mathbf{y})\\
+    =& \mathbf{x}^T\mathbf{A}^T + \mathbf{x}^T\mathbf{A}\\
+    =& \mathbf{x}^T (\mathbf{A}^T + \mathbf{A})
+\end{split}
+\]
+
+
+\subsection{differentiation w.r.t. a matrix}
+
+\paragraph{1.} Let $\mathbf{A} \in \mathbb{R}^{m\times n}$, $\mathbf{X} \in \mathbb{R}^{m\times n}$. Then
+
+\begin{equation}
+    \frac{d}{d\mathbf{X}}\text{Tr}(\mathbf{A^TX}) = \frac{d}{d\mathbf{X}}\text{Tr}(\mathbf{X^TA}) = \mathbf{A}
+\end{equation}
+
+
+\paragraph{2.} Let $\mathbf{A} \in \mathbb{R}^{m\times m}$, $\mathbf{X} \in \mathbb{R}^{m\times n}$. Then
+
+\begin{equation}
+    \frac{d}{d\mathbf{X}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{X}) = (\mathbf{A} + \mathbf{A}^T) \mathbf{X}
+\end{equation}
+
+We can derive it as follows:
+
+\[
+\begin{split}
+    \frac{d}{d\mathbf{X}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{X}) =& \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{Y}^T \mathbf{A} \mathbf{X}) + \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{Y})\\
+    =& \mathbf{X}^T \mathbf{A}^T + \mathbf{X}^T \mathbf{A}\\
+    =& \mathbf{X}^T (\mathbf{A}^T + \mathbf{A})
+\end{split}
+\]
+
+\paragraph{Example.} Consider now this example.
+
+\[
+f(\mathbf{X}) = \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{X} \mathbf{B} \mathbf{X}^T \mathbf{C})
+\]
+
+where $\mathbf{X} \in \mathbb{R}^{n\times m}$, $\mathbf{A} \in \mathbb{R}^{n\times n}$, $\mathbf{B} \in \mathbb{R}^{m\times m}$, $\mathbf{C} \in \mathbb{R}^{n\times m}$.
+
+\[
+\begin{split}
+    \frac{d}{d\mathbf{X}} f(\mathbf{X}) =& \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{Y}^T \mathbf{A} \mathbf{X} \mathbf{B} \mathbf{X}^T \mathbf{C})\\
+    +& \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{Y} \mathbf{B} \mathbf{X}^T \mathbf{C})\\
+    +& \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{X} \mathbf{B} \mathbf{Y}^T \mathbf{C})
+\end{split}
+\]
+
+Calculating these:
+
+\[
+\begin{split}
+    \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{Y}^T \mathbf{A} \mathbf{X} \mathbf{B} \mathbf{X}^T \mathbf{C}) = (\mathbf{A} \mathbf{X} \mathbf{B} \mathbf{X}^T \mathbf{C})^T = \mathbf{C}^T \mathbf{X} \mathbf{B}^T \mathbf{X}^T \mathbf{A}^T
+\end{split}
+\]
+
+\[
+\begin{split}
+    \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{Y} \mathbf{B} \mathbf{X}^T \mathbf{C}) =& \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{Y} \mathbf{B} \mathbf{X}^T \mathbf{C} \mathbf{X}^T \mathbf{A})\\
+    =& \mathbf{B} \mathbf{X}^T \mathbf{C} \mathbf{X}^T \mathbf{A}\\
+\end{split}
+\]
+
+\[
+\begin{split}
+   \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{X} \mathbf{B} \mathbf{Y}^T \mathbf{C}) &= \frac{d}{d\mathbf{Y}} \text{Tr}(\mathbf{Y}^T \mathbf{C} \mathbf{X}^T \mathbf{A} \mathbf{X} \mathbf{B})\\
+   &= (\mathbf{C} \mathbf{X}^T \mathbf{A} \mathbf{X} \mathbf{B})^T = \mathbf{B}^T \mathbf{X}^T \mathbf{A}^T \mathbf{X} \mathbf{C}^T
+\end{split}
+\]
+
+So the result is:
+
+\[
+\frac{d}{d\mathbf{X}} \text{Tr}(\mathbf{X}^T \mathbf{A} \mathbf{X} \mathbf{B} \mathbf{X}^T \mathbf{C}) = \mathbf{C}^T \mathbf{X} \mathbf{B}^T \mathbf{X}^T \mathbf{A}^T + \mathbf{B} \mathbf{X}^T \mathbf{C} \mathbf{X}^T \mathbf{A} + \mathbf{B}^T \mathbf{X}^T \mathbf{A}^T \mathbf{X} \mathbf{C}^T
+\]
+
+
+\end{document}
